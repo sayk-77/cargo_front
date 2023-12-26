@@ -1,0 +1,15 @@
+.filter {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.dataNotFound {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}

@@ -1,0 +1,66 @@
+.contract-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    margin: 30px auto;
+    width: 400px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.contract-card:hover {
+    transform: translateY(-5px);
+}
+
+.contract-card h3 {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.contract-card p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #666;
+}
+
+.contract-card p:first-of-type {
+    font-weight: bold;
+}
+
+.contract-card p:last-of-type {
+    margin-top: auto;
+}
+
+.showInvoiceAndTravelTicket {
+    display: flex;
+    gap: 0 50px;
+    justify-content: space-between;
+    margin: 10px auto;
+}
+
+.showInvoiceAndTravelTicket > button {
+    background-color: lightblue;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.contract-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contract-title > button {
+    display: flex;
+    background-color: lightblue;
+    border:none;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    justify-content: space-between;
+}

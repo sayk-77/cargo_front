@@ -1,0 +1,33 @@
+.driver-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 600px;
+    text-align: center;
+    border-right: 5px solid #3498db;
+    font-family: Arial, sans-serif;
+    transition: .5s;
+}
+
+.driver-card:nth-child(2n):hover {
+    transition: .5s;
+    transform: translateX(-10px);
+}
+
+.driver-card:nth-child(odd):hover {
+    transition: .5s;
+    transform: translateX(10px);
+}
+
+.driver-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.driver-card p {
+    margin: 8px 0;
+    color: #666;
+}
