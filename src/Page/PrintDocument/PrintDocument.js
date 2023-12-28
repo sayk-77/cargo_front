@@ -1,36 +1,38 @@
 import { useParams } from "react-router-dom";
-import {useEffect, useState} from "react";
-import './prind_document_style.css'
+import { useEffect, useState } from "react";
+import './prind_document_style.css';
 
 export const PrintDocument = () => {
     const { contractId } = useParams();
-    const [dataPrint, setDataPrint] = useState()
+    const [dataPrint, setDataPrint] = useState();
 
     useEffect(() => {
         const getInfoToPrintDocument = async () => {
-            const response = await fetch(`http://192.168.0.105:5000/print/${contractId}`,
-                {
+            try {
+                const response = await fetch(`http://192.168.0.105:5000/print/${contractId}`, {
                     method: 'GET'
-                })
+                });
 
-            const data = await response.json()
-            setDataPrint(data)
-            console.log(data)
-        }
-        getInfoToPrintDocument()
-    }, []);
+                const data = await response.json();
+                setDataPrint(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        getInfoToPrintDocument();
+    }, [contractId]);
 
     const printDocument = () => {
         const printContent = document.getElementsByClassName('print-document')[0].innerHTML;
         const originalContent = document.body.innerHTML;
 
         document.body.innerHTML = printContent;
-
         window.print();
 
         document.body.innerHTML = originalContent;
-        window.location.href = '/contracts'
-    }
+        window.location.href = '/contracts';
+    };
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -41,37 +43,98 @@ export const PrintDocument = () => {
         <>
             <section className="print-document">
                 <h1>Печать документа №{contractId}</h1>
-                {dataPrint && (
-                    <article className="section">
-                        <h2>Детали контракта</h2>
-                        <p>Груз: {dataPrint.contract_cargo}</p>
-                        <p>Дата доставки: {formatDate(dataPrint.contract_delivery_time)}</p>
-                        <p>Пункт отправления: {dataPrint.contract_departure_point}</p>
-                        <p>Пункт назначения: {dataPrint.contract_destination}</p>
-                        <p>Водитель: {dataPrint.driver_name}</p>
-                        <p>Цена: {dataPrint.contract_price}</p>
-                    </article>
-                )}
-                {dataPrint && (
-                    <article className="section">
-                        <h2>Детали накладной</h2>
-                        <p>Наименование груза: {dataPrint.invoice_cargo_name}</p>
-                        <p>Вес: {dataPrint.invoice_cargo_weight}</p>
-                        <p>Дата: {formatDate(dataPrint.invoice_date)}</p>
-                        <p>Получатель: {dataPrint.recipient_full_name}</p>
-                        <p>Отправитель: {dataPrint.sender_full_name}</p>
-                        <p>Общая цена: {dataPrint.invoice_total_price}</p>
-                    </article>
-                )}
-                {dataPrint && (
-                    <article className="section">
-                        <h2>Детали путевого листа</h2>
-                        <p>Дата перевозки: {formatDate(dataPrint.ticket_transportation_date)}</p>
-                        <p>Дата действия: {formatDate(dataPrint.ticket_valid_date)}</p>
-                        <p>Водитель: {dataPrint.driver_name}</p>
-                        <p>Машина: {dataPrint.car_name}</p>
-                    </article>
-                )}
+                <table className="receipt-table">
+                    <tbody>
+                    <tr>
+                        <td className="titleInfoBlock">Детали контракта</td>
+                        <td></td>
+                    </tr>
+                    {dataPrint && (
+                        <>
+                            <tr>
+                                <td>Груз:</td>
+                                <td>{dataPrint.contract_cargo}</td>
+                            </tr>
+                            <tr>
+                                <td>Дата доставки:</td>
+                                <td>{formatDate(dataPrint.contract_delivery_time)}</td>
+                            </tr>
+                            <tr>
+                                <td>Пункт отправления:</td>
+                                <td>{dataPrint.contract_departure_point}</td>
+                            </tr>
+                            <tr>
+                                <td>Пункт назначения:</td>
+                                <td>{dataPrint.contract_destination}</td>
+                            </tr>
+                            <tr>
+                                <td>Водитель:</td>
+                                <td>{dataPrint.driver_name}</td>
+                            </tr>
+                            <tr>
+                                <td>Цена:</td>
+                                <td>{dataPrint.contract_price} USD</td>
+                            </tr>
+                        </>
+                    )}
+                    {dataPrint && (
+                        <>
+                            <tr>
+                                <td className="titleInfoBlock">Детали накладной</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Наименование груза:</td>
+                                <td>{dataPrint.invoice_cargo_name}</td>
+                            </tr>
+                            <tr>
+                                <td>Вес:</td>
+                                <td>{dataPrint.invoice_cargo_weight} {dataPrint.invoice_unit_measure}.</td>
+                            </tr>
+                            <tr>
+                                <td>Дата:</td>
+                                <td>{formatDate(dataPrint.invoice_date)}</td>
+                            </tr>
+                            <tr>
+                                <td>Получатель:</td>
+                                <td>{dataPrint.recipient_full_name}</td>
+                            </tr>
+                            <tr>
+                                <td>Отправитель:</td>
+                                <td>{dataPrint.sender_full_name}</td>
+                            </tr>
+                            <tr>
+                                <td>Общая цена:</td>
+                                <td>{dataPrint.invoice_total_price} USD</td>
+                            </tr>
+                        </>
+                    )}
+                    {dataPrint && (
+                        <>
+                            <tr>
+                                <td className="titleInfoBlock">Детали путевого листа</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Дата перевозки:</td>
+                                <td>{formatDate(dataPrint.ticket_transportation_date)}</td>
+                            </tr>
+                            <tr>
+                                <td>Дата действия:</td>
+                                <td>{formatDate(dataPrint.ticket_valid_date)}</td>
+                            </tr>
+                            <tr>
+                                <td>Водитель:</td>
+                                <td>{dataPrint.driver_name}</td>
+                            </tr>
+                            <tr>
+                                <td>Машина:</td>
+                                <td>{dataPrint.car_name}</td>
+                            </tr>
+                        </>
+                    )}
+                    </tbody>
+                </table>
             </section>
             <button className='btnPrint' onClick={printDocument}>Печать</button>
         </>
